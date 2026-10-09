@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>QuickBite Restaurants</title>
 </head>
 
 <body>
-   <div class="container">
+
+    <div class="container">
 
         <h1>QuickBite Restaurants</h1>
-        <!-- Search bar -->
-        <form>
+
+        <form
+            method="GET"
+            action="{{ route('restaurants.index') }}"
+        >
             <input
                 type="text"
                 name="search"
+                value="{{ $search }}"
                 placeholder="Search restaurants..."
             >
 
@@ -28,59 +34,39 @@
         <!-- Restaurant list -->
         <div class="restaurant-list">
 
-            <div class="restaurant-card">
-                <h2>Pizza House</h2>
+            @forelse ($restaurants as $restaurant)
 
-                <p>
-                    Italian pizza and pasta
-                </p>
+                <div class="restaurant-card">
 
-                <p>
-                    Montreal
-                </p>
+                    <h2>
+                        {{ $restaurant->name }}
+                    </h2>
 
-                <a href="#">
-                    View Restaurant
-                </a>
-            </div>
+                    <p>
+                        {{ $restaurant->description }}
+                    </p>
 
+                    <p>
+                        {{ $restaurant->location }}
+                    </p>
 
-            <div class="restaurant-card">
-                <h2>Sushi World</h2>
+                    <a href="#">
+                        View Restaurant
+                    </a>
 
-                <p>
-                    Japanese food and sushi
-                </p>
+                </div>
 
-                <p>
-                    Montreal
-                </p>
+                <hr>
 
-                <a href="#">
-                    View Restaurant
-                </a>
-            </div>
+            @empty
 
+                <p>No restaurants found.</p>
 
-            <div class="restaurant-card">
-                <h2>Burger Corner</h2>
-
-                <p>
-                    Burgers, fries and drinks
-                </p>
-
-                <p>
-                    Montreal
-                </p>
-
-                <a href="#">
-                    View Restaurant
-                </a>
-            </div>
+            @endforelse
 
         </div>
 
     </div>
 
 </body>
-</html> 
+</html>
