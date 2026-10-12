@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\RestaurantSearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/restaurants', [RestaurantController::class, 'index'])
+Route::get('/restaurants', [RestaurantSearchController::class, 'index'])
     ->name('restaurants.index');
