@@ -212,17 +212,11 @@
                 <div class="restaurant-grid">
 
                     @foreach ($restaurants as $restaurant)
-                        @php
-                            $image = $restaurant->name === 'Demo Taco House'
-                                ? 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=900&q=80'
-                                : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80';
-                        @endphp
-
                         <article class="restaurant-card">
-                            
+
                             <img
                                 class="restaurant-image"
-                                src="{{ $image }}"
+                                src="{{ $restaurant->image_url }}"
                                 alt="{{ $restaurant->name }}"
                             >
 

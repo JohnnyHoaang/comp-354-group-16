@@ -13,8 +13,6 @@ class RestaurantDemoSeeder extends Seeder
 {
     private const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80';
 
-    private const TACO_HOUSE_IMAGE = 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=900&q=80';
-
     public const RESTAURANT_NAMES = [
         'Bistro',
         'Taco House',
@@ -38,13 +36,14 @@ class RestaurantDemoSeeder extends Seeder
     /**
      * Additional demo restaurants and their menus, keyed by restaurant name.
      *
-     * @var array<int, array{name: string, description: string, location: string, menu: array<int, array{name: string, description: string, price: float}>}>
+     * @var array<int, array{name: string, description: string, location: string, image_url: string, menu: array<int, array{name: string, description: string, price: float}>}>
      */
     private const ADDITIONAL_RESTAURANTS = [
         [
             'name' => 'Pizzeria',
             'description' => 'Wood-fired pizza shop with classic and specialty pies.',
             'location' => '12 Vine Street',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Margherita Pizza', 'description' => 'Tomato sauce, fresh mozzarella, and basil.', 'price' => 13.00],
                 ['name' => 'Pepperoni Pizza', 'description' => 'Tomato sauce, mozzarella, and spicy pepperoni.', 'price' => 14.50],
@@ -57,6 +56,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Sushi Bar',
             'description' => 'Fresh sushi and rolls made to order.',
             'location' => '88 Harbor Lane',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'California Roll', 'description' => 'Crab, avocado, and cucumber.', 'price' => 9.00],
                 ['name' => 'Spicy Tuna Roll', 'description' => 'Tuna, spicy mayo, and scallion.', 'price' => 10.50],
@@ -69,6 +69,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Curry House',
             'description' => 'Comforting Indian curries and tandoor favorites.',
             'location' => '231 Spice Road',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Butter Chicken', 'description' => 'Tandoori chicken in a creamy tomato curry.', 'price' => 15.50],
                 ['name' => 'Chana Masala', 'description' => 'Chickpeas simmered in a spiced tomato sauce.', 'price' => 12.00],
@@ -81,6 +82,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Noodle Bar',
             'description' => 'Hand-pulled noodles and classic Chinese stir-fry.',
             'location' => '57 Canton Court',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Beef Lo Mein', 'description' => 'Stir-fried noodles with beef and vegetables.', 'price' => 13.50],
                 ['name' => 'Kung Pao Chicken', 'description' => 'Chicken, peanuts, and chili peppers in a savory sauce.', 'price' => 14.00],
@@ -93,6 +95,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'BBQ Pit',
             'description' => 'Slow-smoked barbecue and classic Southern sides.',
             'location' => '340 Smokehouse Road',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Pulled Pork Plate', 'description' => 'Smoked pulled pork with two sides.', 'price' => 16.00],
                 ['name' => 'Brisket Plate', 'description' => 'Slow-smoked brisket with two sides.', 'price' => 18.50],
@@ -105,6 +108,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Thai Kitchen',
             'description' => 'Classic Thai dishes balancing sweet, sour, and spicy.',
             'location' => '19 Orchid Avenue',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Pad Thai', 'description' => 'Stir-fried rice noodles with egg, peanuts, and lime.', 'price' => 13.00],
                 ['name' => 'Green Curry', 'description' => 'Coconut curry with chicken, bamboo, and basil.', 'price' => 14.50],
@@ -117,6 +121,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Mediterranean Grill',
             'description' => 'Grilled meats, fresh salads, and house-made dips.',
             'location' => '76 Olive Way',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Chicken Shawarma Wrap', 'description' => 'Marinated chicken, garlic sauce, and pickles.', 'price' => 11.50],
                 ['name' => 'Falafel Plate', 'description' => 'Crispy falafel with hummus, salad, and pita.', 'price' => 12.00],
@@ -129,6 +134,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Vegan Table',
             'description' => 'Plant-based comfort food made from scratch.',
             'location' => '9 Greenleaf Street',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Jackfruit Tacos', 'description' => 'Shredded jackfruit with slaw and chipotle crema.', 'price' => 11.00],
                 ['name' => 'Buddha Bowl', 'description' => 'Quinoa, roasted vegetables, and tahini dressing.', 'price' => 12.50],
@@ -141,6 +147,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Burger Joint',
             'description' => 'Classic smash burgers and crispy fries.',
             'location' => '142 Grill Street',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Classic Cheeseburger', 'description' => 'Beef patty, cheddar, lettuce, tomato, and onion.', 'price' => 10.50],
                 ['name' => 'Bacon Burger', 'description' => 'Beef patty, bacon, cheddar, and BBQ sauce.', 'price' => 12.00],
@@ -153,6 +160,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Seafood Shack',
             'description' => 'Fresh seafood favorites served dockside style.',
             'location' => '5 Pier Avenue',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Fish and Chips', 'description' => 'Beer-battered cod with fries and tartar sauce.', 'price' => 14.00],
                 ['name' => 'Shrimp Po Boy', 'description' => 'Fried shrimp, lettuce, and remoulade on a baguette.', 'price' => 13.50],
@@ -165,6 +173,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Breakfast Nook',
             'description' => 'All-day breakfast and brunch classics.',
             'location' => '63 Sunrise Boulevard',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Classic Pancakes', 'description' => 'Three buttermilk pancakes with maple syrup.', 'price' => 8.50],
                 ['name' => 'Veggie Omelette', 'description' => 'Three-egg omelette with peppers, onion, and cheese.', 'price' => 10.00],
@@ -177,6 +186,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Deli Corner',
             'description' => 'Classic sandwiches stacked high with fresh ingredients.',
             'location' => '27 Market Square',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Turkey Club', 'description' => 'Turkey, bacon, lettuce, tomato, and mayo on toast.', 'price' => 10.00],
                 ['name' => 'Italian Sub', 'description' => 'Ham, salami, provolone, and Italian dressing.', 'price' => 10.50],
@@ -189,6 +199,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Bakery and Sweets',
             'description' => 'Fresh-baked pastries, cakes, and coffee.',
             'location' => '4 Baker Street',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Chocolate Croissant', 'description' => 'Buttery, flaky croissant with chocolate filling.', 'price' => 4.50],
                 ['name' => 'Blueberry Muffin', 'description' => 'Moist muffin packed with fresh blueberries.', 'price' => 3.75],
@@ -201,6 +212,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Steakhouse',
             'description' => 'Hearty steaks and classic sides in a cozy setting.',
             'location' => '101 Prime Street',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Ribeye Steak', 'description' => '12oz ribeye grilled to order.', 'price' => 28.00],
                 ['name' => 'Filet Mignon', 'description' => '8oz filet with a red wine reduction.', 'price' => 32.00],
@@ -213,6 +225,7 @@ class RestaurantDemoSeeder extends Seeder
             'name' => 'Ramen House',
             'description' => 'Rich, slow-simmered ramen broths and toppings.',
             'location' => '82 Lantern Alley',
+            'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             'menu' => [
                 ['name' => 'Tonkotsu Ramen', 'description' => 'Pork broth ramen with chashu and soft egg.', 'price' => 14.00],
                 ['name' => 'Shoyu Ramen', 'description' => 'Soy-based broth with noodles, egg, and scallion.', 'price' => 13.50],
@@ -233,7 +246,7 @@ class RestaurantDemoSeeder extends Seeder
             [
                 'description' => 'Casual neighborhood restaurant with simple comfort food.',
                 'location' => '123 Main Street',
-                'image_url' => self::PLACEHOLDER_IMAGE,
+                'image_url' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80',
             ],
         );
 
@@ -242,7 +255,7 @@ class RestaurantDemoSeeder extends Seeder
             [
                 'description' => 'Quick pickup spot for tacos, bowls, and sides.',
                 'location' => '48 Market Avenue',
-                'image_url' => self::TACO_HOUSE_IMAGE,
+                'image_url' => 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=900&q=80',
             ],
         );
 
@@ -260,7 +273,7 @@ class RestaurantDemoSeeder extends Seeder
                 [
                     'description' => $seed['description'],
                     'location' => $seed['location'],
-                    'image_url' => self::PLACEHOLDER_IMAGE,
+                    'image_url' => $seed['image_url'],
                 ],
             );
 
