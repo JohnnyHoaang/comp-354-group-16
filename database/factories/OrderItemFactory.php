@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\MenuItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +20,11 @@ class OrderItemFactory extends Factory
      */
     public function definition(): array
     {
+        $restaurant = Restaurant::factory()->create();
+
         return [
-            'order_id' => Order::factory(),
-            'menu_item_id' => MenuItem::factory(),
+            'order_id' => Order::factory()->for($restaurant),
+            'menu_item_id' => MenuItem::factory()->for($restaurant),
             'quantity' => fake()->numberBetween(1, 5),
         ];
     }
