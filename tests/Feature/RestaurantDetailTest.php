@@ -1,0 +1,77 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\MenuItem;
+use App\Models\Order;
+use App\Models\Restaurant;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class RestaurantDetailTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_restaurant_detail_shows_information_menu_and_navigation(): void
+    {
+        $restaurant = Restaurant::factory()->create([
+            'name' => 'Demo Bistro',
+            'description' => 'Neighborhood comfort food.',
+            'location' => '123 Main Street',
+        ]);
+        $menuItem = MenuItem::factory()->for($restaurant)->create([
+            'name' => 'Bistro Burger',
+            'description' => 'Burger with cheddar and house sauce.',
+            'price' => 14.50,
+        ]);
+
+        $response = $this->get(route('restaurants.show', $restaurant));
+
+        $response->assertOk()
+            ->assertSeeText('Demo Bistro')
+            ->assertSeeText('Neighborhood comfort food.')
+            ->assertSeeText('123 Main Street')
+            ->assertSeeText('Bistro Burger')
+            ->assertSeeText('Burger with cheddar and house sauce.')
+            ->assertSeeText('$14.50')
+            ->assertSee(route('restaurants.index'))
+            ->assertSee('#menu');
+    }
+
+    public function test_best_sellers_are_ranked_by_units_and_belong_to_the_selected_restaurant(): void
+    {
+        $restaurant = Restaurant::factory()->create();
+        $otherRestaurant = Restaurant::factory()->create();
+
+        $topSeller = MenuItem::factory()->for($restaurant)->create(['name' => 'Top Seller']);
+        $secondSeller = MenuItem::factory()->for($restaurant)->create(['name' => 'Second Seller']);
+        $otherItem = MenuItem::factory()->for($otherRestaurant)->create(['name' => 'Other Restaurant Item']);
+
+        $order = Order::factory()->for($restaurant)->create();
+        $order->menuItems()->attach($topSeller, ['quantity' => 5]);
+        $order->menuItems()->attach($secondSeller, ['quantity' => 2]);
+        $order->menuItems()->attach($otherItem, ['quantity' => 100]);
+
+        $response = $this->get(route('restaurants.show', $restaurant));
+
+        $response->assertOk()
+            ->assertSeeTextInOrder(['Top Seller', '5 sold', 'Second Seller', '2 sold'])
+            ->assertDontSeeText('Other Restaurant Item');
+    }
+
+    public function test_restaurant_detail_shows_empty_state_when_there_are_no_sales(): void
+    {
+        $restaurant = Restaurant::factory()->create();
+        MenuItem::factory()->for($restaurant)->create(['name' => 'Unsold Item']);
+
+        $this->get(route('restaurants.show', $restaurant))
+            ->assertOk()
+            ->assertSeeText('No sales data is available yet.')
+            ->assertSeeText('Unsold Item');
+    }
+
+    public function test_unknown_restaurant_returns_not_found(): void
+    {
+        $this->get('/restaurants/999999')->assertNotFound();
+    }
+}

@@ -23,6 +23,7 @@ class MenuItemFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(),
             'price' => fake()->randomFloat(2, 5, 50),
+            'image_url' => fake()->imageUrl(),
         ];
     }
 }

@@ -16,6 +16,7 @@ class Restaurant extends Model
         'name',
         'description',
         'location',
+        'image_url',
     ];
 
     public function menuItems(): HasMany

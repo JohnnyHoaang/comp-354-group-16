@@ -18,6 +18,7 @@ class MenuItem extends Model
         'name',
         'description',
         'price',
+        'image_url',
     ];
 
     protected function casts(): array
