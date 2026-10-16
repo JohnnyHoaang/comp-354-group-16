@@ -234,14 +234,13 @@
                                     {{ $restaurant->description }}
                                 </p>
 
-                                <a href="{{ route('restaurants.show', $restaurant) }}">
-                                    <wa-button
-                                        variant="neutral"
-                                        appearance="outlined"
-                                    >
-                                        View Restaurant
-                                    </wa-button>
-                                </a>
+                                <wa-button
+                                    href="{{ route('restaurants.show', $restaurant) }}"
+                                    variant="neutral"
+                                    appearance="outlined"
+                                >
+                                    View Restaurant
+                                </wa-button>
 
                             </div>
 
