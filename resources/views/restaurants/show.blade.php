@@ -21,10 +21,6 @@
             margin-bottom: 20px;
         }
 
-        .detail-actions {
-            margin-top: 18px;
-        }
-
         .detail-hero {
             overflow: hidden;
             border: 1px solid #e8e8e8;
@@ -65,7 +61,9 @@
         }
 
         .detail-columns {
-            margin-top: 32px;
+            display: grid;
+            gap: 36px;
+            margin-top: 36px;
         }
 
         .detail-section {
@@ -73,66 +71,70 @@
         }
 
         .section-title {
-            margin: 0 0 20px;
+            margin: 0 0 4px;
             font-size: 24px;
         }
 
-        .item-list {
+        .section-subtitle {
+            margin: 0 0 20px;
+            color: #707070;
+        }
+        .item-grid {
             display: grid;
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
         }
 
         .item-card {
             display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            overflow: hidden;
-            padding: 16px;
-            border: 1px solid #e8e8e8;
-            border-radius: 16px;
-            background: #fff;
-            transition: box-shadow 0.2s ease;
+            flex-direction: column;
+            color: inherit;
+            text-decoration: none;
         }
 
         .item-card:hover {
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            color: inherit;
         }
 
-        .menu-item-image {
+        .item-card-image {
             display: block;
-            width: 88px;
-            height: 88px;
-            flex: 0 0 88px;
-            border-radius: 10px;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: 14px;
             object-fit: cover;
             background: #ececec;
+            transition: box-shadow 0.2s ease;
         }
 
-        .menu-item-content {
-            min-width: 0;
-            flex: 1;
+        .item-card:hover .item-card-image {
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
         }
 
-        .menu-item-content h3 {
-            margin: 0 0 8px;
-            font-size: 18px;
+        .item-card-body {
+            padding: 12px 2px 0;
         }
 
-        .menu-item-content p {
+        .item-card-body h3 {
+            display: -webkit-box;
+            overflow: hidden;
+            margin: 0 0 6px;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            font-size: 17px;
+        }
+
+        .item-card-body p {
+            display: -webkit-box;
+            overflow: hidden;
             margin: 0;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
             color: #707070;
-            line-height: 1.5;
+            line-height: 1.45;
         }
 
-        .item-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .item-card-footer p {
+        .item-card-meta {
+            margin-top: 10px;
             color: #222;
             font-weight: 700;
         }
@@ -151,10 +153,9 @@
                 width: min(100% - 24px, 1200px);
             }
 
-            .menu-item-image {
-                width: 72px;
-                height: 72px;
-                flex-basis: 72px;
+            .item-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 18px;
             }
         }
     </style>
@@ -177,43 +178,69 @@
                     {{ $restaurant->description ?: 'No description available.' }}
                 </p>
                 <p class="detail-location"><strong>Pickup location:</strong> {{ $restaurant->location }}</p>
-                <div class="detail-actions">
-                    <wa-button href="#menu" variant="neutral" appearance="outlined">
-                        View Menu
-                    </wa-button>
-                </div>
             </div>
         </section>
 
         <div class="detail-columns">
-            <section class="detail-section" aria-labelledby="best-sellers-heading">
-                <h2 class="section-title" id="best-sellers-heading">Best Sellers</h2>
+            @if ($bestSellers->isNotEmpty())
+                <section class="detail-section" aria-labelledby="best-sellers-heading">
+                    <h2 class="section-title" id="best-sellers-heading">Best Sellers</h2>
+                    <p class="section-subtitle">The most commonly ordered items from this restaurant.</p>
 
-                @if ($bestSellers->isEmpty())
-                    <p class="empty-state">No sales data is available yet.</p>
-                @else
-                    <div class="item-list">
+                    <div class="item-grid">
                         @foreach ($bestSellers as $item)
-                            <article class="item-card">
+                            <a
+                                class="item-card"
+                                href="{{ route('restaurants.menu-items.show', [$restaurant, $item]) }}"
+                            >
                                 <img
-                                    class="menu-item-image"
+                                    class="item-card-image"
                                     src="{{ $item->image_url ?: asset('images/food-placeholder.svg') }}"
                                     alt="{{ $item->name }}"
                                     loading="lazy"
                                 >
-                                <div class="menu-item-content">
+                                <div class="item-card-body">
                                     <h3>{{ $item->name }}</h3>
                                     <p>{{ $item->description ?: 'No description available.' }}</p>
-                                    <div class="item-card-footer">
-                                        <p>{{ $item->units_sold }} sold</p>
-                                    </div>
+                                    <p class="item-card-meta">
+                                        ${{ number_format($item->price, 2) }} &middot; {{ $item->units_sold }} sold
+                                    </p>
                                 </div>
-                            </article>
+                            </a>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
+            <section class="detail-section" id="menu" aria-labelledby="menu-heading">
+                <h2 class="section-title" id="menu-heading">Menu</h2>
+                <p class="section-subtitle">Everything this restaurant offers.</p>
+
+                @if ($menuItems->isEmpty())
+                    <p class="empty-state">This restaurant has not added any menu items yet.</p>
+                @else
+                    <div class="item-grid">
+                        @foreach ($menuItems as $item)
+                            <a
+                                class="item-card"
+                                href="{{ route('restaurants.menu-items.show', [$restaurant, $item]) }}"
+                            >
+                                <img
+                                    class="item-card-image"
+                                    src="{{ $item->image_url ?: asset('images/food-placeholder.svg') }}"
+                                    alt="{{ $item->name }}"
+                                    loading="lazy"
+                                >
+                                <div class="item-card-body">
+                                    <h3>{{ $item->name }}</h3>
+                                    <p>{{ $item->description ?: 'No description available.' }}</p>
+                                    <p class="item-card-meta">${{ number_format($item->price, 2) }}</p>
+                                </div>
+                            </a>
                         @endforeach
                     </div>
                 @endif
             </section>
-
         </div>
     </main>
 @endsection

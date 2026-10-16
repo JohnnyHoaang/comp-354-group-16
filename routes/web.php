@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DataDebugController;
+use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\RestaurantSearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,7 @@ Route::prefix('debug/data')->name('debug.data.')->group(function () {
 
 Route::get('/restaurants/{restaurant}', [RestaurantSearchController::class, 'show'])
     ->name('restaurants.show');
+
+Route::get('/restaurants/{restaurant}/menu/{menuItem}', [MenuItemController::class, 'show'])
+    ->scopeBindings()
+    ->name('restaurants.menu-items.show');
