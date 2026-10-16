@@ -185,7 +185,6 @@
             @if ($bestSellers->isNotEmpty())
                 <section class="detail-section" aria-labelledby="best-sellers-heading">
                     <h2 class="section-title" id="best-sellers-heading">Best Sellers</h2>
-                    <p class="section-subtitle">The most commonly ordered items from this restaurant.</p>
 
                     <div class="item-grid">
                         @foreach ($bestSellers as $item)
@@ -214,7 +213,6 @@
 
             <section class="detail-section" id="menu" aria-labelledby="menu-heading">
                 <h2 class="section-title" id="menu-heading">Menu</h2>
-                <p class="section-subtitle">Everything this restaurant offers.</p>
 
                 @if ($menuItems->isEmpty())
                     <p class="empty-state">This restaurant has not added any menu items yet.</p>
