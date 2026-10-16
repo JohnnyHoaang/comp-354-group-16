@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\MenuItem;
 use App\Models\Order;
 use App\Models\Restaurant;
+use Database\Seeders\RestaurantDemoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -31,11 +32,43 @@ class RestaurantDetailTest extends TestCase
             ->assertSeeText('Demo Bistro')
             ->assertSeeText('Neighborhood comfort food.')
             ->assertSeeText('123 Main Street')
-            ->assertSeeText('Bistro Burger')
-            ->assertSeeText('Burger with cheddar and house sauce.')
-            ->assertSeeText('$14.50')
+            ->assertSee('https://example.test/images/bistro.jpg')
+            ->assertSeeText('No sales data is available yet.')
+            ->assertDontSeeText('Bistro Burger')
+            ->assertDontSeeText('Burger with cheddar and house sauce.')
+            ->assertDontSeeText('$14.50')
+            ->assertDontSee('https://example.test/images/burger.jpg')
+            ->assertDontSeeText('Menu details are not displayed on this page.')
             ->assertSee(route('restaurants.index'))
             ->assertSee('#menu');
+    }
+
+    public function test_restaurant_fallback_image_is_shown_when_no_url_is_set(): void
+    {
+        $restaurant = Restaurant::factory()->create(['image_url' => null]);
+
+        $this->get(route('restaurants.show', $restaurant))
+            ->assertOk()
+            ->assertSee('images/food-placeholder.svg');
+    }
+
+    public function test_demo_seeder_uses_restaurant_images_for_menu_items(): void
+    {
+        $this->seed(RestaurantDemoSeeder::class);
+
+        foreach (['Bistro', 'Taco House'] as $restaurantName) {
+            $restaurant = Restaurant::query()
+                ->where('name', $restaurantName)
+                ->firstOrFail();
+
+            $this->assertSame(
+                [$restaurant->image_url],
+                $restaurant->menuItems()
+                    ->pluck('image_url')
+                    ->unique()
+                    ->all(),
+            );
+        }
     }
 
     public function test_best_sellers_are_ranked_by_units_and_belong_to_the_selected_restaurant(): void
