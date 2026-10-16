@@ -13,17 +13,19 @@ class RestaurantDetailTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_restaurant_detail_shows_information_menu_and_navigation(): void
+    public function test_restaurant_detail_shows_information_and_menu_link_without_menu_items(): void
     {
         $restaurant = Restaurant::factory()->create([
             'name' => 'Demo Bistro',
             'description' => 'Neighborhood comfort food.',
             'location' => '123 Main Street',
+            'image_url' => 'https://example.test/images/bistro.jpg',
         ]);
-        $menuItem = MenuItem::factory()->for($restaurant)->create([
+        MenuItem::factory()->for($restaurant)->create([
             'name' => 'Bistro Burger',
             'description' => 'Burger with cheddar and house sauce.',
             'price' => 14.50,
+            'image_url' => 'https://example.test/images/burger.jpg',
         ]);
 
         $response = $this->get(route('restaurants.show', $restaurant));
@@ -100,7 +102,7 @@ class RestaurantDetailTest extends TestCase
         $this->get(route('restaurants.show', $restaurant))
             ->assertOk()
             ->assertSeeText('No sales data is available yet.')
-            ->assertSeeText('Unsold Item');
+            ->assertDontSeeText('Unsold Item');
     }
 
     public function test_unknown_restaurant_returns_not_found(): void

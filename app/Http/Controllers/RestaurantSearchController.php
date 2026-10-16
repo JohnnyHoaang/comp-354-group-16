@@ -27,10 +27,6 @@ class RestaurantSearchController extends Controller
 
     public function show(Restaurant $restaurant): View
     {
-        $menuItems = $restaurant->menuItems()
-            ->orderBy('name')
-            ->get();
-
         $bestSellers = $restaurant->menuItems()
             ->whereHas('orderItems.order', function (Builder $query) use ($restaurant): void {
                 $query->where('restaurant_id', $restaurant->id);
@@ -49,7 +45,6 @@ class RestaurantSearchController extends Controller
 
         return view('restaurants.show', [
             'restaurant' => $restaurant,
-            'menuItems' => $menuItems,
             'bestSellers' => $bestSellers,
         ]);
     }
