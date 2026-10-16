@@ -13,7 +13,7 @@ class RestaurantDetailTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_restaurant_detail_shows_information_and_menu_link_without_menu_items(): void
+    public function test_restaurant_detail_shows_information_and_menu_items(): void
     {
         $restaurant = Restaurant::factory()->create([
             'name' => 'Demo Bistro',
@@ -35,14 +35,28 @@ class RestaurantDetailTest extends TestCase
             ->assertSeeText('Neighborhood comfort food.')
             ->assertSeeText('123 Main Street')
             ->assertSee('https://example.test/images/bistro.jpg')
-            ->assertSeeText('No sales data is available yet.')
-            ->assertDontSeeText('Bistro Burger')
-            ->assertDontSeeText('Burger with cheddar and house sauce.')
-            ->assertDontSeeText('$14.50')
-            ->assertDontSee('https://example.test/images/burger.jpg')
-            ->assertDontSeeText('Menu details are not displayed on this page.')
+            ->assertSeeText('Menu')
+            ->assertSeeText('Bistro Burger')
+            ->assertSeeText('Burger with cheddar and house sauce.')
+            ->assertSeeText('$14.50')
+            ->assertSee('https://example.test/images/burger.jpg')
             ->assertSee(route('restaurants.index'))
-            ->assertSee('#menu');
+            ->assertSee(route('restaurants.menu-items.show', [$restaurant, $restaurant->menuItems()->sole()]))
+            ->assertDontSeeText('View Menu');
+    }
+
+    public function test_restaurant_detail_shows_menu_items_below_best_sellers(): void
+    {
+        $restaurant = Restaurant::factory()->create();
+        $topSeller = MenuItem::factory()->for($restaurant)->create(['name' => 'Aaa Top Seller']);
+        MenuItem::factory()->for($restaurant)->create(['name' => 'Zzz Quiet Dish']);
+
+        $order = Order::factory()->for($restaurant)->create();
+        $order->menuItems()->attach($topSeller, ['quantity' => 5]);
+
+        $this->get(route('restaurants.show', $restaurant))
+            ->assertOk()
+            ->assertSeeTextInOrder(['Best Sellers', '5 sold', 'Menu', 'Aaa Top Seller', 'Zzz Quiet Dish']);
     }
 
     public function test_restaurant_fallback_image_is_shown_when_no_url_is_set(): void
@@ -94,15 +108,26 @@ class RestaurantDetailTest extends TestCase
             ->assertDontSeeText('Other Restaurant Item');
     }
 
-    public function test_restaurant_detail_shows_empty_state_when_there_are_no_sales(): void
+    public function test_best_sellers_section_is_hidden_when_there_are_no_sales(): void
     {
         $restaurant = Restaurant::factory()->create();
         MenuItem::factory()->for($restaurant)->create(['name' => 'Unsold Item']);
 
         $this->get(route('restaurants.show', $restaurant))
             ->assertOk()
-            ->assertSeeText('No sales data is available yet.')
-            ->assertDontSeeText('Unsold Item');
+            ->assertDontSeeText('Best Sellers')
+            ->assertSeeText('Menu')
+            ->assertSeeText('Unsold Item');
+    }
+
+    public function test_menu_section_shows_empty_state_when_there_are_no_menu_items(): void
+    {
+        $restaurant = Restaurant::factory()->create();
+
+        $this->get(route('restaurants.show', $restaurant))
+            ->assertOk()
+            ->assertSeeText('Menu')
+            ->assertSeeText('This restaurant has not added any menu items yet.');
     }
 
     public function test_unknown_restaurant_returns_not_found(): void

@@ -43,9 +43,14 @@ class RestaurantSearchController extends Controller
             ->limit(3)
             ->get();
 
+        $menuItems = $restaurant->menuItems()
+            ->orderBy('name')
+            ->get();
+
         return view('restaurants.show', [
             'restaurant' => $restaurant,
             'bestSellers' => $bestSellers,
+            'menuItems' => $menuItems,
         ]);
     }
 }
