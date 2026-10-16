@@ -235,6 +235,7 @@
                                 </p>
 
                                 <wa-button
+                                    href="{{ route('restaurants.show', $restaurant) }}"
                                     variant="neutral"
                                     appearance="outlined"
                                 >

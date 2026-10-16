@@ -324,7 +324,7 @@ class RestaurantDemoSeeder extends Seeder
             [
                 'description' => $description,
                 'price' => $price,
-                'image_url' => self::PLACEHOLDER_IMAGE,
+                'image_url' => $restaurant->image_url ?: self::PLACEHOLDER_IMAGE,
             ],
         );
     }
